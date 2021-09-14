@@ -46,7 +46,7 @@ prometheusRules: rulefmt.#RuleGroups & {
 						summary:     slo.alertSummary
 					}
 					for:  w.forPeriod
-					expr: "sum(job:\( slo.service )_\( slo.name )_slo_violations:ratio_rate\( w.short )) > (\( w.burn ) * \( 1-slo.threshold )) and sum(job:\( slo.service )_\( slo.name )_slo_violations_total:ratio_rate\( w.long )) > (\( w.burn ) * \( 1-slo.threshold ))"
+					expr: "sum(job:\( slo.service )_\( slo.name )_slo_violations:ratio_rate\( w.short )) > (\( w.burn ) * \( 1-slo.threshold )) and sum(job:\( slo.service )_\( slo.name )_slo_violations:ratio_rate\( w.long )) > (\( w.burn ) * \( 1-slo.threshold ))"
 					labels: {
 						job:      slo.service
 						severity: w.severity
