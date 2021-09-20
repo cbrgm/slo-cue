@@ -1,75 +1,180 @@
 groups:
-- name: bar_service_requests_slo
+- name: foo_service_read_slo
   rules:
-  - expr: sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp',code=~'5..'}[5m])) / sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp'}[5m]))
+  - record: job:foo_service_read_slo_violations:ratio_rate5m
+    expr: sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp',code=~'5..'}[5m]))
+      / sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp'}[5m]))
     labels:
-      job: bar_service
-    record: job:bar_service_requests_slo_violations:ratio_rate5m
-  - expr: sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp',code=~'5..'}[30m])) / sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp'}[30m]))
+      job: foo_service
+  - record: job:foo_service_read_slo_violations:ratio_rate30m
+    expr: sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp',code=~'5..'}[30m]))
+      / sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp'}[30m]))
     labels:
-      job: bar_service
-    record: job:bar_service_requests_slo_violations:ratio_rate30m
-  - expr: sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp',code=~'5..'}[2h])) / sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp'}[2h]))
+      job: foo_service
+  - record: job:foo_service_read_slo_violations:ratio_rate2h
+    expr: sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp',code=~'5..'}[2h]))
+      / sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp'}[2h]))
     labels:
-      job: bar_service
-    record: job:bar_service_requests_slo_violations:ratio_rate2h
-  - expr: sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp',code=~'5..'}[6h])) / sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp'}[6h]))
+      job: foo_service
+  - record: job:foo_service_read_slo_violations:ratio_rate6h
+    expr: sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp',code=~'5..'}[6h]))
+      / sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp'}[6h]))
     labels:
-      job: bar_service
-    record: job:bar_service_requests_slo_violations:ratio_rate6h
-  - expr: sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp',code=~'5..'}[1h])) / sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp'}[1h]))
+      job: foo_service
+  - record: job:foo_service_read_slo_violations:ratio_rate1h
+    expr: sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp',code=~'5..'}[1h]))
+      / sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp'}[1h]))
     labels:
-      job: bar_service
-    record: job:bar_service_requests_slo_violations:ratio_rate1h
-  - expr: sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp',code=~'5..'}[1d])) / sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp'}[1d]))
+      job: foo_service
+  - record: job:foo_service_read_slo_violations:ratio_rate1d
+    expr: sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp',code=~'5..'}[1d]))
+      / sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp'}[1d]))
     labels:
-      job: bar_service
-    record: job:bar_service_requests_slo_violations:ratio_rate1d
-  - expr: sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp',code=~'5..'}[3d])) / sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp'}[3d]))
+      job: foo_service
+  - record: job:foo_service_read_slo_violations:ratio_rate3d
+    expr: sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp',code=~'5..'}[3d]))
+      / sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp'}[3d]))
     labels:
-      job: bar_service
-    record: job:bar_service_requests_slo_violations:ratio_rate3d
+      job: foo_service
   - alert: ErrorBudgetBurn
     annotations:
-      description: 'High error budget burn for job=bar_service (current value: {{ $value }}).'
+      description: 'High error budget burn for job=foo_service (current value: {{
+        $value }}).'
       summary: High error budget burn.
-    expr: sum(job:bar_service_requests_slo_violations:ratio_rate5m) > (14.4 * 0.001) and sum(job:bar_service_requests_slo_violations:ratio_rate1h) > (14.4 * 0.001)
     for: 2m
+    expr: sum(job:foo_service_read_slo_violations:ratio_rate5m) > (14.4 * 0.001) and
+      sum(job:foo_service_read_slo_violations:ratio_rate1h) > (14.4 * 0.001)
     labels:
-      job: bar_service
-      long: 1h
+      job: foo_service
       severity: critical
+      long: 1h
       short: 5m
   - alert: ErrorBudgetBurn
     annotations:
-      description: 'High error budget burn for job=bar_service (current value: {{ $value }}).'
+      description: 'High error budget burn for job=foo_service (current value: {{
+        $value }}).'
       summary: High error budget burn.
-    expr: sum(job:bar_service_requests_slo_violations:ratio_rate30m) > (6 * 0.001) and sum(job:bar_service_requests_slo_violations:ratio_rate6h) > (6 * 0.001)
     for: 15m
+    expr: sum(job:foo_service_read_slo_violations:ratio_rate30m) > (6 * 0.001) and
+      sum(job:foo_service_read_slo_violations:ratio_rate6h) > (6 * 0.001)
     labels:
-      job: bar_service
-      long: 6h
+      job: foo_service
       severity: critical
+      long: 6h
       short: 30m
   - alert: ErrorBudgetBurn
     annotations:
-      description: 'High error budget burn for job=bar_service (current value: {{ $value }}).'
+      description: 'High error budget burn for job=foo_service (current value: {{
+        $value }}).'
       summary: High error budget burn.
-    expr: sum(job:bar_service_requests_slo_violations:ratio_rate2h) > (3 * 0.001) and sum(job:bar_service_requests_slo_violations:ratio_rate1d) > (3 * 0.001)
     for: 1h
+    expr: sum(job:foo_service_read_slo_violations:ratio_rate2h) > (3 * 0.001) and
+      sum(job:foo_service_read_slo_violations:ratio_rate1d) > (3 * 0.001)
     labels:
-      job: bar_service
-      long: 1d
+      job: foo_service
       severity: warning
+      long: 1d
       short: 2h
   - alert: ErrorBudgetBurn
     annotations:
-      description: 'High error budget burn for job=bar_service (current value: {{ $value }}).'
+      description: 'High error budget burn for job=foo_service (current value: {{
+        $value }}).'
       summary: High error budget burn.
-    expr: sum(job:bar_service_requests_slo_violations:ratio_rate6h) > (1 * 0.001) and sum(job:bar_service_requests_slo_violations:ratio_rate3d) > (1 * 0.001)
     for: 3h
+    expr: sum(job:foo_service_read_slo_violations:ratio_rate6h) > (1 * 0.001) and
+      sum(job:foo_service_read_slo_violations:ratio_rate3d) > (1 * 0.001)
     labels:
-      job: bar_service
-      long: 3d
+      job: foo_service
       severity: warning
+      long: 3d
       short: 6h
+- name: foo_service_write_slo
+  rules:
+  - record: job:foo_service_write_slo_violations:ratio_rate5m
+    expr: sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp',code=~'5..'}[5m]))
+      / sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp'}[5m]))
+    labels:
+      job: foo_service
+  - record: job:foo_service_write_slo_violations:ratio_rate30m
+    expr: sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp',code=~'5..'}[30m]))
+      / sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp'}[30m]))
+    labels:
+      job: foo_service
+  - record: job:foo_service_write_slo_violations:ratio_rate2h
+    expr: sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp',code=~'5..'}[2h]))
+      / sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp'}[2h]))
+    labels:
+      job: foo_service
+  - record: job:foo_service_write_slo_violations:ratio_rate6h
+    expr: sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp',code=~'5..'}[6h]))
+      / sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp'}[6h]))
+    labels:
+      job: foo_service
+  - record: job:foo_service_write_slo_violations:ratio_rate1h
+    expr: sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp',code=~'5..'}[1h]))
+      / sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp'}[1h]))
+    labels:
+      job: foo_service
+  - record: job:foo_service_write_slo_violations:ratio_rate1d
+    expr: sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp',code=~'5..'}[1d]))
+      / sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp'}[1d]))
+    labels:
+      job: foo_service
+  - record: job:foo_service_write_slo_violations:ratio_rate3d
+    expr: sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp',code=~'5..'}[3d]))
+      / sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp'}[3d]))
+    labels:
+      job: foo_service
+  - alert: ErrorBudgetBurn
+    annotations:
+      description: 'High error budget burn for job=foo_service (current value: {{
+        $value }}).'
+      summary: High error budget burn.
+    for: 2m
+    expr: sum(job:foo_service_write_slo_violations:ratio_rate5m) > (14.4 * 0.005)
+      and sum(job:foo_service_write_slo_violations:ratio_rate1h) > (14.4 * 0.005)
+    labels:
+      job: foo_service
+      severity: critical
+      long: 1h
+      short: 5m
+  - alert: ErrorBudgetBurn
+    annotations:
+      description: 'High error budget burn for job=foo_service (current value: {{
+        $value }}).'
+      summary: High error budget burn.
+    for: 15m
+    expr: sum(job:foo_service_write_slo_violations:ratio_rate30m) > (6 * 0.005) and
+      sum(job:foo_service_write_slo_violations:ratio_rate6h) > (6 * 0.005)
+    labels:
+      job: foo_service
+      severity: critical
+      long: 6h
+      short: 30m
+  - alert: ErrorBudgetBurn
+    annotations:
+      description: 'High error budget burn for job=foo_service (current value: {{
+        $value }}).'
+      summary: High error budget burn.
+    for: 1h
+    expr: sum(job:foo_service_write_slo_violations:ratio_rate2h) > (3 * 0.005) and
+      sum(job:foo_service_write_slo_violations:ratio_rate1d) > (3 * 0.005)
+    labels:
+      job: foo_service
+      severity: warning
+      long: 1d
+      short: 2h
+  - alert: ErrorBudgetBurn
+    annotations:
+      description: 'High error budget burn for job=foo_service (current value: {{
+        $value }}).'
+      summary: High error budget burn.
+    for: 3h
+    expr: sum(job:foo_service_write_slo_violations:ratio_rate6h) > (1 * 0.005) and
+      sum(job:foo_service_write_slo_violations:ratio_rate3d) > (1 * 0.005)
+    labels:
+      job: foo_service
+      severity: warning
+      long: 3d
+      short: 6h
+
