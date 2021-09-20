@@ -6,13 +6,17 @@ import (
 
 services: schema.#ServiceDefinition
 
-services: "bar_service": [
+services: "foo_service": [
 	{
-		name:        "requests"
+		name:        "read"
 		errorsQuery: "sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp',code=~'5..'}[$__range]))"
 		totalQuery:  "sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp'}[$__range]))"
 		threshold:   0.999
-
-		alertWindows: schema.#DefaultAlertWindows
+	},
+	{
+		name:        "write"
+		errorsQuery: "sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp',code=~'5..'}[$__range]))"
+		totalQuery:  "sum(rate(promhttp_metric_handler_requests_total{namespace='default',job='fooapp'}[$__range]))"
+		threshold:   0.995
 	},
 ]

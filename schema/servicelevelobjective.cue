@@ -15,7 +15,7 @@ package schema
 	alertSummary: string | *"High error budget burn."
 
 	// alertWindows is a list of burn rates and time windows
-	alertWindows: [...#AlertWindow]
+	alertWindows: #AlertWindows | *#DefaultAlertWindows
 
 	// errorsQuery is a PromQL query returning the count of requests not fulfilling the SLO
 	// Important: You must put $__range for the range in the range selector.
